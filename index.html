@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="sw">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <title>Perfume & Beauty Store</title>
+    <style>
+      body {
+        font-family: 'Roboto', Arial, sans-serif;
+        margin: 0;
+        background: #f9f9f9;
+        padding: 0;
+      }
+
+      header {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        margin-bottom: 1rem; /* Added margin-bottom */
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.4rem;
+        color: #444;
+      }
+
+      .phones {
+        text-align: right;
+        font-size: 0.95rem;
+        color: #333;
+      }
+
+      .phones span {
+        display: block;
+      }
+
+      .note {
+        width: 100%;
+        margin-top: 0.8rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #007bff;
+        font-weight: bold;
+      }
+
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Wider grid columns */
+        gap: 1.5rem;
+        padding: 1rem;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        width: 100%; /* Ensures the card takes up the full space available */
+      }
+
+      .card img {
+        width: 100%;
+        height: 280px; /* Increased image height */
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 1rem;
+      }
+
+      .card-body h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #444;
+      }
+
+      .card-body p {
+        margin: 0.3rem 0;
+        font-size: 1rem;
+        color: #555;
+      }
+
+      .cta {
+        margin-top: auto;
+        padding: 1rem;
+        text-align: center;
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        border-radius: 0 0 10px 10px;
+      }
+
+      .cta a {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+
+      .contact {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 1rem;
+        padding-bottom: 2rem;
+      }
+
+      .contact a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to Our Beauty Store 💐</h1>
+      <div class="phones">
+        <span>📞 +255 657 777 687</span>
+        <span>📞 +255 684 106 419</span>
+      </div>
+      <div class="note">Tunapatikana Zanzibar, tunafanya delivery Tanzania nzima 🇹🇿</div>
+    </header>
+
+    <div class="products" id="productsContainer"></div>
+
+    <div class="contact">
+      <p>Interested? Call or WhatsApp us at <a href="tel:+255657777687">+255 657 777 687</a></p>
+      <p>
+        Interested? Call or WhatsApp us at
+        <a
+          href="tel:+255684106419
+        "
+        >
+          +255 684 106 419
+        </a>
+      </p>
+    </div>
+
+    <script>
+      const products = [
+        {
+          name: 'Nivea Men',
+          image: '../img/v1.jpeg',
+          price: '25,000 TZS',
+          quantity: '10 pcs'
+        },
+        {
+          name: 'Balancing',
+          image: '../img/balancing.jpeg',
+          price: '18,000 TZS',
+          quantity: '15 pcs'
+        },
+        {
+          name: 'Dove',
+          image: '../img/dove.jpeg',
+          price: '6,500 TZS',
+          quantity: '8 pcs'
+        },
+        {
+          name: 'Bukhoor Gram Al Lail',
+          image: '../img/bohoor.jpeg',
+          price: '20,000 TZS',
+          quantity: '8 pcs'
+        },
+        {
+          name: 'Dettol',
+          image: '../img/dottel.jpeg',
+          price: '20,000 TZS',
+          quantity: '8 pcs'
+        },
+        {
+          name: 'Ave',
+          image: '../img/ave.jpeg',
+          price: '20,000 TZS',
+          quantity: '8 pcs'
+        },
+        {
+          name: 'Ave Face and Body Scrub',
+          image: '../img/ave-face-and-body-scrub.jpeg',
+          price: '20,000 TZS',
+          quantity: '8 pcs'
+        }
+      ]
+
+      const container = document.getElementById('productsContainer')
+
+      container.innerHTML = products
+        .map(
+          product => `
+        <div class="card">
+          <img src="${product.image}" alt="${product.name}" />
+          <div class="card-body">
+            <h3>${product.name}</h3>
+            <p>Price: ${product.price}</p>
+            <p>Quantity: ${product.quantity}</p>
+            <p>Competetor price: ${7000}</p>
+          </div>
+          <div class="cta">
+            <p>Call or WhatsApp us:</p>
+            <a href="https://wa.me/+255657777687" target="_blank">+255 657 777 687</a>
+            <a href="https://wa.me/+255684106419" target="_blank">+255 684 106 419</a>
+          </div>
+        </div>
+      `
+        )
+        .join('')
+    </script>
+  </body>
+</html>
