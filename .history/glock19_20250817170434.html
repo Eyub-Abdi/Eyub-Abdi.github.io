@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IronVault | Secure Armory</title>
+    <style>
+      :root {
+        --primary: #ff5555;
+        --secondary: #5555ff;
+        --dark: #111111;
+        --darker: #080808;
+        --light: #e0e0e0;
+        --warning: #ffaa00;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Courier New', monospace;
+      }
+
+      body {
+        background-color: var(--dark);
+        color: var(--light);
+        line-height: 1.6;
+        overflow-x: hidden;
+        padding-top: 98px; /* Space for sticky header + disclaimer */
+      }
+
+      .disclaimer {
+        background-color: var(--warning);
+        color: #000;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        border-bottom: 1px solid #000;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: rgba(8, 8, 8, 0.95);
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        border-bottom: 1px solid var(--primary);
+        top: 38px; /* Below disclaimer */
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo span {
+        color: var(--light);
+      }
+
+      .logo::before {
+        content: '[IV]';
+        margin-right: 10px;
+        color: var(--secondary);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        color: var(--light);
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        bottom: -5px;
+        left: 0;
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: calc(100vh - 98px);
+        display: flex;
+        align-items: center;
+        background: linear-gradient(rgba(8, 8, 8, 0.9), rgba(8, 8, 8, 0.9)), url('https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+        position: relative;
+      }
+
+      .hero-content {
+        max-width: 600px;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+
+      .hero h1 span {
+        color: var(--primary);
+        position: relative;
+      }
+
+      .hero h1 span::after {
+        content: '_';
+        animation: blink 1s infinite;
+      }
+
+      .hero p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #aaa;
+      }
+
+      .btn {
+        display: inline-block;
+        background: var(--primary);
+        color: var(--dark);
+        padding: 12px 30px;
+        border: none;
+        border-radius: 0;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .btn:hover {
+        background: var(--secondary);
+        color: var(--light);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(85, 85, 255, 0.2);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        margin-left: 15px;
+      }
+
+      .btn-outline:hover {
+        background: var(--primary);
+        color: var(--dark);
+      }
+
+      /* Products Section */
+      .products {
+        padding: 100px 0;
+        background-color: var(--darker);
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-title h2 {
+        font-size: 36px;
+        color: var(--light);
+        margin-bottom: 15px;
+      }
+
+      .section-title p {
+        color: #777;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .product-card {
+        background: rgba(20, 20, 20, 0.7);
+        padding: 30px;
+        border-left: 3px solid var(--primary);
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+      }
+
+      .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(255, 85, 85, 0.1);
+      }
+
+      .product-card h3 {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: var(--primary);
+      }
+
+      .product-card .price {
+        color: var(--secondary);
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
+
+      .product-card p {
+        color: #aaa;
+        margin-bottom: 20px;
+      }
+
+      .product-card .stock {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--primary);
+        color: var(--dark);
+        padding: 3px 10px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        margin-bottom: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid #333;
+      }
+
+      /* Gun Picker Section */
+      .gun-picker {
+        padding: 50px 0;
+        background-color: var(--dark);
+        border-top: 1px solid #333;
+        border-bottom: 1px solid #333;
+      }
+
+      .picker-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .gun-option {
+        width: 120px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .gun-option:hover {
+        transform: translateY(-5px);
+      }
+
+      .gun-option img {
+        width: 100%;
+        height: 80px;
+        object-fit: contain;
+        filter: grayscale(80%);
+        transition: filter 0.3s;
+      }
+
+      .gun-option:hover img {
+        filter: grayscale(0%);
+      }
+
+      .gun-option p {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #aaa;
+      }
+
+      /* About Section */
+      .about {
+        padding: 100px 0;
+        background-color: var(--dark);
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .about-text h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: var(--light);
+      }
+
+      .about-text h2 span {
+        color: var(--primary);
+      }
+
+      .about-text p {
+        margin-bottom: 20px;
+        color: #aaa;
+      }
+
+      .about-image {
+        position: relative;
+      }
+
+      .about-image img {
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        filter: grayscale(50%);
+      }
+
+      .about-image::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 3px solid var(--primary);
+        top: 20px;
+        left: 20px;
+        z-index: -1;
+        border-radius: 5px;
+      }
+
+      /* Security Section */
+      .security {
+        padding: 100px 0;
+        background-color: var(--darker);
+      }
+
+      .security-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .feature {
+        text-align: center;
+        padding: 30px;
+      }
+
+      .feature .icon {
+        font-size: 40px;
+        color: var(--secondary);
+        margin-bottom: 20px;
+      }
+
+      .feature h3 {
+        color: var(--primary);
+        margin-bottom: 15px;
+      }
+
+      .feature p {
+        color: #aaa;
+      }
+
+      /* Contact Section */
+      .contact {
+        padding: 100px 0;
+        background-color: var(--dark);
+      }
+
+      .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--light);
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 12px;
+        background: rgba(20, 20, 20, 0.7);
+        border: 1px solid #333;
+        color: var(--light);
+        font-size: 16px;
+      }
+
+      .form-group textarea {
+        height: 150px;
+        resize: vertical;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #050505;
+        padding: 50px 0 20px;
+        text-align: center;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        margin-bottom: 30px;
+      }
+
+      .footer-links li {
+        margin: 0 15px;
+      }
+
+      .footer-links a {
+        color: #777;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary);
+      }
+
+      .copyright {
+        color: #555;
+        font-size: 14px;
+      }
+
+      /* Animations */
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Glitch Effect */
+      .glitch {
+        position: relative;
+      }
+
+      .glitch::before,
+      .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .glitch::before {
+        left: 2px;
+        text-shadow: -2px 0 #ff00c1;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim 5s infinite linear alternate-reverse;
+      }
+
+      .glitch::after {
+        left: -2px;
+        text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim2 5s infinite linear alternate-reverse;
+      }
+
+      @keyframes glitch-anim {
+        0% {
+          clip: rect(31px, 9999px, 94px, 0);
+        }
+        10% {
+          clip: rect(112px, 9999px, 76px, 0);
+        }
+        20% {
+          clip: rect(85px, 9999px, 77px, 0);
+        }
+        30% {
+          clip: rect(27px, 9999px, 97px, 0);
+        }
+        40% {
+          clip: rect(64px, 9999px, 98px, 0);
+        }
+        50% {
+          clip: rect(61px, 9999px, 85px, 0);
+        }
+        60% {
+          clip: rect(99px, 9999px, 114px, 0);
+        }
+        70% {
+          clip: rect(34px, 9999px, 115px, 0);
+        }
+        80% {
+          clip: rect(98px, 9999px, 129px, 0);
+        }
+        90% {
+          clip: rect(43px, 9999px, 96px, 0);
+        }
+        100% {
+          clip: rect(82px, 9999px, 64px, 0);
+        }
+      }
+
+      @keyframes glitch-anim2 {
+        0% {
+          clip: rect(65px, 9999px, 119px, 0);
+        }
+        10% {
+          clip: rect(79px, 9999px, 66px, 0);
+        }
+        20% {
+          clip: rect(74px, 9999px, 103px, 0);
+        }
+        30% {
+          clip: rect(92px, 9999px, 118px, 0);
+        }
+        40% {
+          clip: rect(121px, 9999px, 69px, 0);
+        }
+        50% {
+          clip: rect(20px, 9999px, 99px, 0);
+        }
+        60% {
+          clip: rect(64px, 9999px, 102px, 0);
+        }
+        70% {
+          clip: rect(113px, 9999px, 98px, 0);
+        }
+        80% {
+          clip: rect(114px, 9999px, 84px, 0);
+        }
+        90% {
+          clip: rect(106px, 9999px, 35px, 0);
+        }
+        100% {
+          clip: rect(26px, 9999px, 38px, 0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        body {
+          padding-top: 148px; /* More space for stacked header on mobile */
+        }
+
+        header {
+          top: 38px;
+        }
+
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: var(--darker);
+          flex-direction: column;
+          padding: 20px 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-links li {
+          margin: 10px 0;
+          text-align: center;
+        }
+
+        .menu-toggle {
+          display: block;
+          color: var(--light);
+          font-size: 24px;
+          cursor: pointer;
+        }
+
+        .hero h1 {
+          font-size: 36px;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+        }
+
+        .about-image {
+          order: -1;
+        }
+
+        .gun-option {
+          width: 100px;
+        }
+      }
+
+      /* Menu Toggle (Mobile) */
+      .menu-toggle {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Disclaimer -->
+    <div class="disclaimer">WARNING: This is a fictional demonstration only. Firearms sales are strictly regulated in most jurisdictions.</div>
+
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <nav>
+          <a href="#" class="logo">Iron<span>Vault</span></a>
+          <div class="menu-toggle">☰</div>
+          <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#products">Inventory</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Secure <span class="glitch" data-text="Firearms Network">Firearms Network</span></h1>
+          <p>Discreet, encrypted transactions for serious collectors. Our decentralized marketplace ensures privacy and security for all parties.</p>
+          <a href="#products" class="btn">View Inventory</a>
+          <a href="#security" class="btn btn-outline">Our Security</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+      <div class="container">
+        <div class="section-title">
+          <h2>Current <span>Inventory</span></h2>
+          <p>All items shipped in discrete packaging with no identifying markings</p>
+        </div>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="./glock_19.webp" alt="Glock 19" class="product-image" />
+            <div class="stock">In Stock</div>
+            <h3>Glock 19 Gen5</h3>
+            <div class="price">0.85 BTC</div>
+            <p>9mm, 15+1 capacity. Includes 3 magazines and cleaning kit. Serial numbers removed.</p>
+            <a href="#" class="btn">Purchase</a>
+          </div>
+          <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1596451099373-1a2faeaa59f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AK-47" class="product-image" />
+            <div class="stock">Low Stock</div>
+            <h3>AK-47 Pattern Rifle</h3>
+            <div class="price">2.25 BTC</div>
+            <p>7.62x39mm, 30rd magazines (x3). Custom manufactured with no import marks.</p>
+            <a href="#" class="btn">Purchase</a>
+          </div>
+          <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AR-15 Lower" class="product-image" />
+            <div class="stock">In Stock</div>
+            <h3>AR-15 Lower Receiver</h3>
+            <div class="price">0.45 BTC</div>
+            <p>80% lower with jig and drill bits. No serial, no paperwork required.</p>
+            <a href="#" class="btn">Purchase</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gun Picker Section -->
+    <section class="gun-picker">
+      <div class="container">
+        <div class="section-title">
+          <h2>Popular <span>Models</span></h2>
+          <p>Browse our most requested firearms</p>
+        </div>
+        <div class="picker-container">
+          <div class="gun-option" onclick="showGlockInfo()">
+            <img src="https://images.unsplash.com/photo-1594282418423-9b7c5b276f0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Glock" />
+            <p>Glock 19</p>
+          </div>
+          <div class="gun-option" onclick="showAKInfo()">
+            <img src="https://images.unsplash.com/photo-1596451099373-1a2faeaa59f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="AK-47" />
+            <p>AK-47</p>
+          </div>
+          <div class="gun-option" onclick="showARInfo()">
+            <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="AR-15" />
+            <p>AR-15</p>
+          </div>
+          <div class="gun-option" onclick="show1911Info()">
+            <img src="https://images.unsplash.com/photo-1557777589-5d53299148b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="1911" />
+            <p>1911</p>
+          </div>
+          <div class="gun-option" onclick="showRevolverInfo()">
+            <img src="https://images.unsplash.com/photo-1610641818989-6b7d6be9d56b?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Revolver" />
+            <p>Revolver</p>
+          </div>
+          <div class="gun-option" onclick="showShotgunInfo()">
+            <img src="https://images.unsplash.com/photo-1610642372651-bc6f2f8a9853?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Shotgun" />
+            <p>Shotgun</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-text">
+            <h2>About <span>IronVault</span></h2>
+            <p>Established in 2012, we operate as a decentralized collective of firearms enthusiasts and privacy advocates.</p>
+            <p>Our network spans multiple jurisdictions with no central point of failure. Each transaction is handled by separate teams who never interact directly.</p>
+            <p>We believe in the fundamental right to self-defense and privacy in an increasingly surveilled world.</p>
+            <a href="#security" class="btn">Our Protocols</a>
+          </div>
+          <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Secure Firearm" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="security" id="security">
+      <div class="container">
+        <div class="section-title">
+          <h2>Transaction <span>Security</span></h2>
+          <p>Multi-layered operational security to protect all parties</p>
+        </div>
+        <div class="security-features">
+          <div class="feature">
+            <div class="icon">[E2E]</div>
+            <h3>End-to-End Encryption</h3>
+            <p>All communications protected with military-grade encryption protocols</p>
+          </div>
+          <div class="feature">
+            <div class="icon">[XMR]</div>
+            <h3>Monero Payments</h3>
+            <p>Cryptocurrency transactions with complete anonymity</p>
+          </div>
+          <div class="feature">
+            <div class="icon">[OPSEC]</div>
+            <h3>Compartmentalization</h3>
+            <p>No single point of failure in our supply chain</p>
+          </div>
+          <div class="feature">
+            <div class="icon">[WIPE]</div>
+            <h3>Data Purging</h3>
+            <p>All transaction details automatically erased after completion</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-title">
+          <h2>Secure <span>Contact</span></h2>
+          <p>Use our encrypted contact form or PGP key for sensitive inquiries</p>
+        </div>
+        <div class="contact-form">
+          <form>
+            <div class="form-group">
+              <label for="contact-method">Preferred Contact Method</label>
+              <select id="contact-method" name="contact-method">
+                <option value="secure-form">Secure Form (Encrypted)</option>
+                <option value="protonmail">ProtonMail</option>
+                <option value="session">Session Messenger</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="contact-name">Identifier</label>
+              <input type="text" id="contact-name" name="contact-name" required placeholder="Your alias" />
+            </div>
+            <div class="form-group">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="contact-message" required placeholder="Encrypted automatically"></textarea>
+            </div>
+            <button type="submit" class="btn">Send Securely</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">PGP Key</a></li>
+          <li><a href="#">Clearance Items</a></li>
+        </ul>
+        <p class="copyright">© 2023 IronVault Network. All communications protected by E2EE.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document.querySelector('.menu-toggle').addEventListener('click', function () {
+        document.querySelector('.nav-links').classList.toggle('active')
+      })
+
+      // Gun picker functions
+      function showGlockInfo() {
+        alert('Glock 19 selected\n9mm compact pistol\nPrice: 0.85 BTC\nIn stock')
+      }
+
+      function showAKInfo() {
+        alert('AK-47 selected\n7.62x39mm rifle\nPrice: 2.25 BTC\nLow stock')
+      }
+
+      function showARInfo() {
+        alert('AR-15 Lower selected\n80% lower receiver\nPrice: 0.45 BTC\nIn stock')
+      }
+
+      function show1911Info() {
+        alert('1911 selected\n.45 ACP pistol\nPrice: 1.10 BTC\nAvailable soon')
+      }
+
+      function showRevolverInfo() {
+        alert('Revolver selected\n.357 Magnum\nPrice: 1.35 BTC\nIn stock')
+      }
+
+      function showShotgunInfo() {
+        alert('Shotgun selected\n12 Gauge pump-action\nPrice: 1.75 BTC\nIn stock')
+      }
+    </script>
+  </body>
+</html>

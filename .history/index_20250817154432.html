@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexusGuard | Cybersecurity Solutions</title>
+    <style>
+      :root {
+        --primary: #00ffaa;
+        --secondary: #0077ff;
+        --dark: #0a0a0a;
+        --darker: #050505;
+        --light: #f0f0f0;
+        --danger: #ff3366;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Courier New', monospace;
+      }
+
+      body {
+        background-color: var(--dark);
+        color: var(--light);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: rgba(10, 10, 10, 0.9);
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        border-bottom: 1px solid var(--primary);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo span {
+        color: var(--light);
+      }
+
+      .logo::before {
+        content: '>';
+        margin-right: 10px;
+        color: var(--secondary);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        color: var(--light);
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        bottom: -5px;
+        left: 0;
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        background: linear-gradient(rgba(5, 5, 5, 0.9), rgba(5, 5, 5, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+        position: relative;
+      }
+
+      .hero-content {
+        max-width: 600px;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+
+      .hero h1 span {
+        color: var(--primary);
+        position: relative;
+      }
+
+      .hero h1 span::after {
+        content: '_';
+        animation: blink 1s infinite;
+      }
+
+      .hero p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #aaa;
+      }
+
+      .btn {
+        display: inline-block;
+        background: var(--primary);
+        color: var(--dark);
+        padding: 12px 30px;
+        border: none;
+        border-radius: 0;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .btn:hover {
+        background: var(--secondary);
+        color: var(--light);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 119, 255, 0.2);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        margin-left: 15px;
+      }
+
+      .btn-outline:hover {
+        background: var(--primary);
+        color: var(--dark);
+      }
+
+      /* Services Section */
+      .services {
+        padding: 100px 0;
+        background-color: var(--darker);
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-title h2 {
+        font-size: 36px;
+        color: var(--light);
+        margin-bottom: 15px;
+      }
+
+      .section-title p {
+        color: #777;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .service-card {
+        background: rgba(20, 20, 20, 0.7);
+        padding: 30px;
+        border-left: 3px solid var(--primary);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 255, 170, 0.1);
+      }
+
+      .service-card h3 {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: var(--primary);
+      }
+
+      .service-card p {
+        color: #aaa;
+        margin-bottom: 20px;
+      }
+
+      .service-card .icon {
+        font-size: 40px;
+        margin-bottom: 20px;
+        color: var(--secondary);
+      }
+
+      /* About Section */
+      .about {
+        padding: 100px 0;
+        background-color: var(--dark);
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .about-text h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: var(--light);
+      }
+
+      .about-text h2 span {
+        color: var(--primary);
+      }
+
+      .about-text p {
+        margin-bottom: 20px;
+        color: #aaa;
+      }
+
+      .about-image {
+        position: relative;
+      }
+
+      .about-image img {
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .about-image::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 3px solid var(--primary);
+        top: 20px;
+        left: 20px;
+        z-index: -1;
+        border-radius: 5px;
+      }
+
+      /* Contact Section */
+      .contact {
+        padding: 100px 0;
+        background-color: var(--darker);
+      }
+
+      .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--light);
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        background: rgba(20, 20, 20, 0.7);
+        border: 1px solid #333;
+        color: var(--light);
+        font-size: 16px;
+      }
+
+      .form-group textarea {
+        height: 150px;
+        resize: vertical;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #050505;
+        padding: 50px 0 20px;
+        text-align: center;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        margin-bottom: 30px;
+      }
+
+      .footer-links li {
+        margin: 0 15px;
+      }
+
+      .footer-links a {
+        color: #777;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary);
+      }
+
+      .copyright {
+        color: #555;
+        font-size: 14px;
+      }
+
+      /* Animations */
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Glitch Effect */
+      .glitch {
+        position: relative;
+      }
+
+      .glitch::before,
+      .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .glitch::before {
+        left: 2px;
+        text-shadow: -2px 0 #ff00c1;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim 5s infinite linear alternate-reverse;
+      }
+
+      .glitch::after {
+        left: -2px;
+        text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim2 5s infinite linear alternate-reverse;
+      }
+
+      @keyframes glitch-anim {
+        0% {
+          clip: rect(31px, 9999px, 94px, 0);
+        }
+        10% {
+          clip: rect(112px, 9999px, 76px, 0);
+        }
+        20% {
+          clip: rect(85px, 9999px, 77px, 0);
+        }
+        30% {
+          clip: rect(27px, 9999px, 97px, 0);
+        }
+        40% {
+          clip: rect(64px, 9999px, 98px, 0);
+        }
+        50% {
+          clip: rect(61px, 9999px, 85px, 0);
+        }
+        60% {
+          clip: rect(99px, 9999px, 114px, 0);
+        }
+        70% {
+          clip: rect(34px, 9999px, 115px, 0);
+        }
+        80% {
+          clip: rect(98px, 9999px, 129px, 0);
+        }
+        90% {
+          clip: rect(43px, 9999px, 96px, 0);
+        }
+        100% {
+          clip: rect(82px, 9999px, 64px, 0);
+        }
+      }
+
+      @keyframes glitch-anim2 {
+        0% {
+          clip: rect(65px, 9999px, 119px, 0);
+        }
+        10% {
+          clip: rect(79px, 9999px, 66px, 0);
+        }
+        20% {
+          clip: rect(74px, 9999px, 103px, 0);
+        }
+        30% {
+          clip: rect(92px, 9999px, 118px, 0);
+        }
+        40% {
+          clip: rect(121px, 9999px, 69px, 0);
+        }
+        50% {
+          clip: rect(20px, 9999px, 99px, 0);
+        }
+        60% {
+          clip: rect(64px, 9999px, 102px, 0);
+        }
+        70% {
+          clip: rect(113px, 9999px, 98px, 0);
+        }
+        80% {
+          clip: rect(114px, 9999px, 84px, 0);
+        }
+        90% {
+          clip: rect(106px, 9999px, 35px, 0);
+        }
+        100% {
+          clip: rect(26px, 9999px, 38px, 0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero h1 {
+          font-size: 36px;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+        }
+
+        .about-image {
+          order: -1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <nav>
+          <a href="#" class="logo">Nexus<span>Guard</span></a>
+          <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Secure Your <span class="glitch" data-text="Digital Future">Digital Future</span></h1>
+          <p>Advanced cybersecurity solutions to protect your business from evolving threats in the digital landscape. Our team of experts provides cutting-edge protection for your most valuable assets.</p>
+          <a href="#services" class="btn">Explore Services</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>Our <span>Services</span></h2>
+          <p>Comprehensive security solutions tailored to your specific needs</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="icon">[ # ]</div>
+            <h3>Penetration Testing</h3>
+            <p>Identify vulnerabilities before attackers do with our comprehensive penetration testing services.</p>
+            <a href="#" class="btn">Learn More</a>
+          </div>
+          <div class="service-card">
+            <div class="icon">[ > ]</div>
+            <h3>Threat Intelligence</h3>
+            <p>Stay ahead of emerging threats with our real-time threat intelligence and monitoring.</p>
+            <a href="#" class="btn">Learn More</a>
+          </div>
+          <div class="service-card">
+            <div class="icon">[ $ ]</div>
+            <h3>Incident Response</h3>
+            <p>24/7 rapid response to security incidents to minimize damage and restore operations.</p>
+            <a href="#" class="btn">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-text">
+            <h2>About <span>NexusGuard</span></h2>
+            <p>Founded in 2015, NexusGuard has been at the forefront of cybersecurity innovation, protecting businesses of all sizes from sophisticated cyber threats.</p>
+            <p>Our team consists of former government cybersecurity specialists, ethical hackers, and security researchers with decades of combined experience.</p>
+            <p>We believe in proactive defense strategies that anticipate threats before they emerge, ensuring your business remains secure in an increasingly hostile digital environment.</p>
+            <a href="#" class="btn">Our Story</a>
+          </div>
+          <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cybersecurity Team" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-title">
+          <h2>Contact <span>Us</span></h2>
+          <p>Get in touch with our security experts to discuss your needs</p>
+        </div>
+        <div class="contact-form">
+          <form>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+        <p class="copyright">© 2023 NexusGuard. All rights reserved. Secure. Protect. Defend.</p>
+      </div>
+    </footer>
+  </body>
+</html>
